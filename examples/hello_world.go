@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	ipfslite "github.com/hsanjuan/ipfs-lite"
+	ipfslite "github.com/jonnycrunch/ipfs-lite"
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-log"
 	crypto "github.com/libp2p/go-libp2p-crypto"
@@ -63,7 +63,7 @@ func main() {
 	fmt.Println(string(content))
 
 	// need to try get CID from dag get 
-	c2, _ := cid.Decode("zdpuArexcesVkwSQPBRXRtDgLJGjRPneWnJb7eS9YuPnKd46Y")
+	// c2, _ := cid.Decode("zdpuArexcesVkwSQPBRXRtDgLJGjRPneWnJb7eS9YuPnKd46Y")
 
 
 
