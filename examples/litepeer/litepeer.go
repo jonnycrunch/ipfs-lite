@@ -1,4 +1,4 @@
-package main
+package litepeer
 
 // This example launches an IPFS-Lite peer and fetches a hello-world
 // hash from the IPFS network.
