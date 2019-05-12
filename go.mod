@@ -1,4 +1,4 @@
-module github.com/hsanjuan/ipfs-lite
+module github.com/jonnycrunch/ipfs-lite
 
 require (
 	github.com/awalterschulze/gographviz v0.0.0-20190221210632-1e9ccb565bca
