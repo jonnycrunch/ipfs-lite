@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	ipfslite "github.com/hsanjuan/ipfs-lite"
+	ipfslite "github.com/jonnycrunch/ipfs-lite"
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-log"
 	crypto "github.com/libp2p/go-libp2p-crypto"
@@ -62,4 +62,22 @@ func main() {
 	}
 
 	fmt.Println(string(content))
+
+	c2, _ := cid.Decode("zdpuArexcesVkwSQPBRXRtDgLJGjRPneWnJb7eS9YuPnKd46Y")
+
+	cid, err2 := lite.Get(ctx, c2)
+	if err2 != nil {
+		panic(err)
+	}
+	// this is a NODE 
+	fmt.Println(cid)
+	// defer rsc2.Close()
+	// content2, err := ioutil.ReadAll(rsc2)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// fmt.Println(string(content2))
+
+
 }

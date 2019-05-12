@@ -119,7 +119,7 @@ func (p *Peer) Bootstrap(peers []peerstore.PeerInfo) {
 			defer wg.Done()
 			err := p.host.Connect(p.ctx, pinfo)
 			if err != nil {
-				logger.Error(err)
+				logger.Info(err)
 				return
 			}
 			logger.Info("Connected to", pinfo.ID)

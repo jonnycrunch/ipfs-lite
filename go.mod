@@ -31,7 +31,13 @@ require (
 	github.com/mr-tron/base58 v1.1.1 // indirect
 	github.com/multiformats/go-multiaddr v0.0.2
 	github.com/multiformats/go-multihash v0.0.1
-	golang.org/x/net v0.0.0-20190311183353-d8887717615a // indirect
-	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2 // indirect
+	golang.org/x/crypto v0.0.0-20190510104115-cbcb75029529 // indirect
+	golang.org/x/exp v0.0.0-20190510132918-efd6b22b2522 // indirect
+	golang.org/x/image v0.0.0-20190507092727-e4e5bf290fec // indirect
+	golang.org/x/mobile v0.0.0-20190509164839-32b2708ab171 // indirect
+	golang.org/x/net v0.0.0-20190509222800-a4d6f7feada5 // indirect
+	golang.org/x/sys v0.0.0-20190509141414-a5b02f93d862 // indirect
+	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/tools v0.0.0-20190511041617-99f201b6807e // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
