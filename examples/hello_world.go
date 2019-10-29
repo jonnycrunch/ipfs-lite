@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	ipfslite "github.com/jonnycrunch/ipfs-lite"
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-log"
+	ipfslite "github.com/jonnycrunch/ipfs-lite"
 	crypto "github.com/libp2p/go-libp2p-crypto"
 	"github.com/multiformats/go-multiaddr"
 )
@@ -33,7 +33,7 @@ func main() {
 		ctx,
 		priv,
 		nil,
-		[]multiaddr.Multiaddr{listen}, 
+		[]multiaddr.Multiaddr{listen},
 		// ipfslite.DefaultBootstrapPeers(),
 	)
 
@@ -46,11 +46,12 @@ func main() {
 		panic(err)
 	}
 
-	// TODO ignore bad dial attempts from boot strap nodes 
+	// TODO ignore bad dial attempts from boot strap nodes
 	lite.Bootstrap(ipfslite.DefaultBootstrapPeers())
 
 	c, _ := cid.Decode("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
 	rsc, err := lite.GetFile(ctx, c)
+
 	if err != nil {
 		panic(err)
 	}
@@ -62,9 +63,7 @@ func main() {
 
 	fmt.Println(string(content))
 
-	// need to try get CID from dag get 
+	// need to try get CID from dag get
 	// c2, _ := cid.Decode("zdpuArexcesVkwSQPBRXRtDgLJGjRPneWnJb7eS9YuPnKd46Y")
-
-
 
 }

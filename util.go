@@ -10,12 +10,11 @@ import (
 	badger "github.com/ipfs/go-ds-badger"
 	config "github.com/ipfs/go-ipfs-config"
 	"github.com/libp2p/go-libp2p"
-	crypto "github.com/libp2p/go-libp2p-crypto"
-	host "github.com/libp2p/go-libp2p-host"
-	ipnet "github.com/libp2p/go-libp2p-interface-pnet"
+	crypto "github.com/libp2p/go-libp2p-core/crypto"
+	host "github.com/libp2p/go-libp2p-core/host"
+	peer "github.com/libp2p/go-libp2p-core/peer"
+	ipnet "github.com/libp2p/go-libp2p-core/pnet"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
-	peer "github.com/libp2p/go-libp2p-peer"
-	peerstore "github.com/libp2p/go-libp2p-peerstore"
 	pnet "github.com/libp2p/go-libp2p-pnet"
 	routedhost "github.com/libp2p/go-libp2p/p2p/host/routed"
 	"github.com/multiformats/go-multiaddr"
@@ -23,26 +22,9 @@ import (
 
 // DefaultBootstrapPeers returns the default go-ipfs bootstrap peers (for use
 // with NewLibp2pHost.
-func DefaultBootstrapPeers() []peerstore.PeerInfo {
-	// conversion copied from go-ipfs
+func DefaultBootstrapPeers() []peer.AddrInfo {
 	defaults, _ := config.DefaultBootstrapPeers()
-	pinfos := make(map[peer.ID]*peerstore.PeerInfo)
-	for _, bootstrap := range defaults {
-		pinfo, ok := pinfos[bootstrap.ID()]
-		if !ok {
-			pinfo = new(peerstore.PeerInfo)
-			pinfos[bootstrap.ID()] = pinfo
-			pinfo.ID = bootstrap.ID()
-		}
-
-		pinfo.Addrs = append(pinfo.Addrs, bootstrap.Transport())
-	}
-
-	var peers []peerstore.PeerInfo
-	for _, pinfo := range pinfos {
-		peers = append(peers, *pinfo)
-	}
-	return peers
+	return defaults
 }
 
 // IPFSBadgerDatastore returns the Badger datastore used by the IPFS daemon
@@ -74,11 +56,18 @@ func BadgerDatastore(path string) (datastore.Batching, error) {
 // SetupLibp2p returns a routed host and DHT instances that can be used to
 // easily create a ipfslite Peer. The DHT is NOT bootstrapped. You may consider
 // to use Peer.Bootstrap() after creating the IPFS-Lite Peer.
+//
+// Additional libp2p options can be passed. Note that the Identity,
+// ListenAddrs and PrivateNetwork options will be setup automatically.
+// Interesting options to pass: NATPortMap(), EnableRelay(...),
+// EnableAutoRelay(), DisableRelay(), ConnectionManager(...)... see
+// https://godoc.org/github.com/libp2p/go-libp2p#Option for more info.
 func SetupLibp2p(
 	ctx context.Context,
 	hostKey crypto.PrivKey,
 	secret []byte,
 	listenAddrs []multiaddr.Multiaddr,
+	opts ...libp2p.Option,
 ) (host.Host, *dht.IpfsDHT, error) {
 
 	var prot ipnet.Protector
@@ -94,12 +83,16 @@ func SetupLibp2p(
 		}
 	}
 
-	h, err := libp2p.New(
-		ctx,
+	finalOpts := []libp2p.Option{
 		libp2p.Identity(hostKey),
 		libp2p.ListenAddrs(listenAddrs...),
 		libp2p.PrivateNetwork(prot),
-		libp2p.NATPortMap(),
+	}
+	finalOpts = append(finalOpts, opts...)
+
+	h, err := libp2p.New(
+		ctx,
+		finalOpts...,
 	)
 	if err != nil {
 		return nil, nil, err
